@@ -10,7 +10,7 @@
         <version>2.5.3</version>
     </parent>
 
-    <groupId>no.politiet.pit.organa.operators</groupId>
+    <groupId>no.politiet.organa</groupId>
     <artifactId>operators</artifactId>
     <name>Organa :: Operators</name>
     <version>1.0-SNAPSHOT</version>
@@ -19,7 +19,9 @@
     <properties>
         <java.version>16</java.version>
 
-        <operator-sdk.version>1.9.1</operator-sdk.version>
+        <operator-sdk.version>1.9.3</operator-sdk.version>
+        <operator-generator.version>5.6.0</operator-generator.version>
+        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
     </properties>
 
     <modules>
@@ -34,4 +36,24 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <dependencyConvergence/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
