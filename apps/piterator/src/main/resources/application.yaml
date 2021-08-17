@@ -1,0 +1,4 @@
+app.resources:
+  metrics.enabled: true
+  services.enabled: true
+  deployment.enabled: true
