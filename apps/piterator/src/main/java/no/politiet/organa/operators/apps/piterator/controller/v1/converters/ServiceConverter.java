@@ -1,4 +1,4 @@
-package no.politiet.organa.operators.apps.piterator.controller.converters;
+package no.politiet.organa.operators.apps.piterator.controller.v1.converters;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.IntOrString;
@@ -7,8 +7,8 @@ import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
 import io.fabric8.kubernetes.api.model.ServicePortBuilder;
 import lombok.val;
-import no.politiet.organa.operators.apps.piterator.controller.v1.schema.PitApp;
-import no.politiet.organa.operators.apps.piterator.controller.v1.schema.Services;
+import no.politiet.organa.operators.libs.contract.organa.piterator.PitApp;
+import no.politiet.organa.operators.libs.contract.organa.piterator.Services;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 

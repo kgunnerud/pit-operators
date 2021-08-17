@@ -1,11 +1,11 @@
-package no.politiet.organa.operators.apps.piterator.controller.converters;
+package no.politiet.organa.operators.apps.piterator.controller.v1.converters;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.openshift.api.model.monitoring.v1.PodMonitor;
 import io.fabric8.openshift.api.model.monitoring.v1.PodMonitorBuilder;
 import lombok.val;
-import no.politiet.organa.operators.apps.piterator.controller.v1.schema.Metrics;
-import no.politiet.organa.operators.apps.piterator.controller.v1.schema.PitApp;
+import no.politiet.organa.operators.libs.contract.organa.piterator.Metrics;
+import no.politiet.organa.operators.libs.contract.organa.piterator.PitApp;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -55,6 +55,11 @@ public class PodMonitorConverter implements SubResourceConverter {
                 .withPath(Optional.ofNullable(metrics).map(Metrics.MetricEndpoint::getPath).orElse("/actuator/prometheus"))
                 .withInterval(Optional.ofNullable(metrics).map(Metrics.MetricEndpoint::getPollInterval).orElse("60"))
                 .withScheme("HTTPS")
+
+                .editOrNewTlsConfig()
+                .withInsecureSkipVerify(true)
+                .and()
+
                 .and()
 
                 .and()

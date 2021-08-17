@@ -1,4 +1,4 @@
-package no.politiet.organa.operators.apps.piterator.controller.v1.schema;
+package no.politiet.organa.operators.libs.contract.organa.piterator;
 
 import lombok.Builder;
 import lombok.Data;

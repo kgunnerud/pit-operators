@@ -1,4 +1,4 @@
-package no.politiet.organa.operators.apps.piterator.controller.v1.schema;
+package no.politiet.organa.operators.libs.contract.organa.piterator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.fabric8.kubernetes.api.model.Namespaced;
