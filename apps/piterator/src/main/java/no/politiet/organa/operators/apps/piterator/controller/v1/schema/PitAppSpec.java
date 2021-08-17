@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class PitAppSpec {
     String image;
-    Integer replicas;
+    Replicas replicas;
     Resources resources;
     Probes probes;
 

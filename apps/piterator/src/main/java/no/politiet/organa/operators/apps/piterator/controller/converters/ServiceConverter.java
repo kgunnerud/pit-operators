@@ -1,4 +1,4 @@
-package no.politiet.organa.operators.apps.piterator.controller.handlers;
+package no.politiet.organa.operators.apps.piterator.controller.converters;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.IntOrString;
@@ -20,7 +20,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 @ConditionalOnProperty(value = "app.resources.services.enabled", havingValue = "true")
-public class ServiceHandler implements SubResourceConverter {
+public class ServiceConverter implements SubResourceConverter {
 
     @Override
     public List<? extends HasMetadata> convert(PitApp resource) {
@@ -34,7 +34,7 @@ public class ServiceHandler implements SubResourceConverter {
 
     private Service toK8s(PitApp resource, List<Services.ServicePort> ports) {
         return new ServiceBuilder()
-                .withMetadata(resource.getMetadata())
+                .withMetadata(resource.getDefaultMeta().build())
 
                 .withNewSpec()
                 .addToSelector("app", resource.getMetadata().getName())

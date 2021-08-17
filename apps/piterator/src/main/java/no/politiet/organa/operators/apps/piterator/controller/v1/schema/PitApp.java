@@ -1,5 +1,6 @@
 package no.politiet.organa.operators.apps.piterator.controller.v1.schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.OwnerReference;
@@ -19,6 +20,7 @@ public class PitApp extends CustomResource<PitAppSpec, PitAppStatus> implements 
     public static final String GROUP = "pit";
     public static final String KIND = "PitApp";
 
+    @JsonIgnore
     public ObjectMetaBuilder getDefaultMeta() {
         return new ObjectMetaBuilder()
                 .withName(getMetadata().getName())
@@ -27,6 +29,7 @@ public class PitApp extends CustomResource<PitAppSpec, PitAppStatus> implements 
                 .addToLabels("app", getMetadata().getName());
     }
 
+    @JsonIgnore
     public OwnerReference getOwnerReference() {
         return new OwnerReferenceBuilder()
                 .withController(true)

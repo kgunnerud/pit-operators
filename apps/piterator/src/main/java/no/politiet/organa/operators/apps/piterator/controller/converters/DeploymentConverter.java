@@ -1,4 +1,4 @@
-package no.politiet.organa.operators.apps.piterator.controller.handlers;
+package no.politiet.organa.operators.apps.piterator.controller.converters;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import java.util.List;
 @Slf4j
 @Component
 @ConditionalOnProperty(value = "app.resources.deployment.enabled", havingValue = "true")
-public class DeploymentHandler implements SubResourceConverter {
+public class DeploymentConverter implements SubResourceConverter {
 
     @Override
     public List<? extends HasMetadata> convert(PitApp resource) {

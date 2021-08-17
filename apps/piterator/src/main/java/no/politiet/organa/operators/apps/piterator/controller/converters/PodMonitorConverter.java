@@ -1,4 +1,4 @@
-package no.politiet.organa.operators.apps.piterator.controller.handlers;
+package no.politiet.organa.operators.apps.piterator.controller.converters;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.openshift.api.model.monitoring.v1.PodMonitor;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Component
 @ConditionalOnProperty(value = "app.resources.metrics.enabled", havingValue = "true")
-public class PodMonitorHandler implements SubResourceConverter {
+public class PodMonitorConverter implements SubResourceConverter {
 
     @Override
     public List<? extends HasMetadata> convert(PitApp resource) {
@@ -39,7 +39,7 @@ public class PodMonitorHandler implements SubResourceConverter {
 
     private PodMonitor toK8s(PitApp resource, Metrics.MetricEndpoint metrics) {
         return new PodMonitorBuilder()
-                .withMetadata(resource.getMetadata())
+                .withMetadata(resource.getDefaultMeta().build())
 
                 .withNewSpec()
 

@@ -10,7 +10,7 @@ import io.javaoperatorsdk.operator.api.UpdateControl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import no.politiet.organa.operators.apps.piterator.controller.handlers.SubResourceConverter;
+import no.politiet.organa.operators.apps.piterator.controller.converters.SubResourceConverter;
 import no.politiet.organa.operators.apps.piterator.controller.v1.schema.PitApp;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;

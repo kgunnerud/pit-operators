@@ -1,4 +1,4 @@
-package no.politiet.organa.operators.apps.piterator.controller.handlers;
+package no.politiet.organa.operators.apps.piterator.controller.converters;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import no.politiet.organa.operators.apps.piterator.controller.v1.schema.PitApp;
