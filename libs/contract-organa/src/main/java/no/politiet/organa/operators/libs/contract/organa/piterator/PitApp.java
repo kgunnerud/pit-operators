@@ -17,7 +17,7 @@ import io.fabric8.kubernetes.model.annotation.Version;
 @Kind(PitApp.KIND)
 public class PitApp extends CustomResource<PitAppSpec, PitAppStatus> implements Namespaced {
     public static final String VERSION = "v1";
-    public static final String GROUP = "pit";
+    public static final String GROUP = "no.politiet.organa";
     public static final String KIND = "PitApp";
 
     @JsonIgnore

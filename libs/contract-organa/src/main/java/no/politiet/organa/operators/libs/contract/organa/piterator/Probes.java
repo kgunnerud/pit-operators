@@ -1,5 +1,7 @@
 package no.politiet.organa.operators.libs.contract.organa.piterator;
 
+import io.fabric8.kubernetes.api.model.Probe;
+import io.fabric8.kubernetes.api.model.ProbeBuilder;
 import lombok.Builder;
 import lombok.Value;
 

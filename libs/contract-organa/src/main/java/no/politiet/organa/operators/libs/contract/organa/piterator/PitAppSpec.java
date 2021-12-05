@@ -12,5 +12,5 @@ public class PitAppSpec {
     Probes probes;
 
     Services services;
-    Metrics metrics;
+    Prometheus prometheus;
 }

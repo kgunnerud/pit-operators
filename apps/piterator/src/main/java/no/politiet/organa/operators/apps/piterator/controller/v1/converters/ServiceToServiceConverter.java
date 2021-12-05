@@ -6,7 +6,6 @@ import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
 import io.fabric8.kubernetes.api.model.ServicePortBuilder;
-import lombok.val;
 import no.politiet.organa.operators.libs.contract.organa.piterator.PitApp;
 import no.politiet.organa.operators.libs.contract.organa.piterator.Services;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,11 +15,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.util.CollectionUtils.isEmpty;
-
 @Component
 @ConditionalOnProperty(value = "app.resources.services.enabled", havingValue = "true")
-public class ServiceConverter implements SubResourceConverter {
+public class ServiceToServiceConverter implements SubResourceConverter {
 
     @Override
     public List<? extends HasMetadata> convert(PitApp resource) {
@@ -28,33 +25,28 @@ public class ServiceConverter implements SubResourceConverter {
             return Collections.emptyList();
         }
 
-        val ports = Optional.ofNullable(resource.getSpec().getServices()).map(Services::getPorts).orElse(null);
-        return List.of(toK8s(resource, ports));
+        return Optional.ofNullable(resource.getSpec().getServices())
+                .map(Services::getPorts)
+                .map(it -> List.of(toK8s(resource, it)))
+                .orElseGet(() -> List.of(toK8s(resource, null)));
     }
 
+    // @formatter:off
     private Service toK8s(PitApp resource, List<Services.ServicePort> ports) {
         return new ServiceBuilder()
                 .withMetadata(resource.getDefaultMeta().build())
 
                 .withNewSpec()
-                .addToSelector("app", resource.getMetadata().getName())
-                .withType("LoadBalancer")
+                    .addToSelector("app", resource.getMetadata().getName())
+                    .withType("LoadBalancer")
 
-                .addAllToPorts(toPorts(ports))
-
-                .and()
-
+                    .addAllToPorts(Optional.ofNullable(ports)
+                        .map(it -> it.stream()
+                                .map(this::toPort)
+                                .toList())
+                        .orElse(List.of(toPort(null))))
+                .endSpec()
                 .build();
-    }
-
-    private List<ServicePort> toPorts(List<Services.ServicePort> ports) {
-        if (isEmpty(ports)) {
-            return List.of(toPort(null));
-        }
-
-        return ports.stream()
-                .map(this::toPort)
-                .toList();
     }
 
     private ServicePort toPort(Services.ServicePort port) {
@@ -65,6 +57,7 @@ public class ServiceConverter implements SubResourceConverter {
                 .withTargetPort(Optional.ofNullable(port).map(Services.ServicePort::getTargetPort).map(IntOrString::new).orElse(new IntOrString(8443)))
                 .build();
     }
+    // @formatter:on
 
     private boolean isEnabled(PitApp resource) {
         return Optional.ofNullable(resource.getSpec().getServices())

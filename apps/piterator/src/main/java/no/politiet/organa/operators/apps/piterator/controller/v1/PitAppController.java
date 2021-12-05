@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import no.politiet.organa.operators.apps.piterator.controller.v1.converters.SubResourceConverter;
 import no.politiet.organa.operators.libs.contract.organa.piterator.PitApp;
+import no.politiet.organa.operators.libs.contract.organa.piterator.PitAppStatus;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
@@ -25,14 +26,6 @@ import java.util.List;
 public class PitAppController implements ResourceController<PitApp> {
     private final List<SubResourceConverter> subResourceConverters;
     private final KubernetesClient k8sClient;
-
-    @Override
-    public DeleteControl deleteResource(PitApp resource, Context<PitApp> context) {
-        addMdc(resource);
-        log.info("Deleting resource");
-        MDC.clear();
-        return DeleteControl.DEFAULT_DELETE;
-    }
 
     @Override
     public UpdateControl<PitApp> createOrUpdateResource(PitApp resource, Context<PitApp> context) {
@@ -49,10 +42,26 @@ public class PitAppController implements ResourceController<PitApp> {
 
             k8sClient.resourceList(subResources).inNamespace(resource.getMetadata().getNamespace()).createOrReplace();
 
+            val status = PitAppStatus.builder().status("Sub-Resources created").build();
+            resource.setStatus(status);
+
+            return UpdateControl.updateCustomResource(resource);
+        } catch (Exception e) {
+            log.error("Failed to create sub-resorces for PitApp with namespace and name: {}:{}", resource.getMetadata().getNamespace(), resource.getMetadata().getName(), e);
+            val status = PitAppStatus.builder().status("Error creating sub-resources").build();
+            resource.setStatus(status);
             return UpdateControl.updateCustomResource(resource);
         } finally {
             MDC.clear();
         }
+    }
+
+    @Override
+    public DeleteControl deleteResource(PitApp resource, Context<PitApp> context) {
+        addMdc(resource);
+        log.info("Deleting resource");
+        MDC.clear();
+        return DeleteControl.DEFAULT_DELETE;
     }
 
     private void addMdc(PitApp resource) {

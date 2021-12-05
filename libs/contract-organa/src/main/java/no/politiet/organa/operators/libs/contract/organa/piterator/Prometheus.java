@@ -5,6 +5,8 @@ import lombok.Value;
 
 @Value
 @Builder
-public class PitAppStatus {
-    String status;
+public class Prometheus {
+    Boolean enabled;
+    String path;
+    String pollInterval;
 }

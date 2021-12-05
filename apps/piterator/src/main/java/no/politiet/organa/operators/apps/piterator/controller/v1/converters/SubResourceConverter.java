@@ -6,5 +6,6 @@ import no.politiet.organa.operators.libs.contract.organa.piterator.PitApp;
 import java.util.List;
 
 public interface SubResourceConverter {
+
     List<? extends HasMetadata> convert(PitApp resource);
 }

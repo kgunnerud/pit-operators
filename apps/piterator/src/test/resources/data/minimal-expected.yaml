@@ -1,0 +1,50 @@
+---
+apiVersion: "monitoring.coreos.com/v1"
+kind: "PodMonitor"
+metadata:
+  labels:
+    app: "Api"
+  name: "Api"
+  namespace: "NTP"
+  ownerReferences:
+    - apiVersion: "v1"
+      kind: "PitApp"
+      controller: true
+      name: "Api"
+      uid: "d73jdlske213"
+spec:
+  namespaceSelector:
+    matchNames:
+      - "NTP"
+  podMetricsEndpoints:
+    - interval: "60"
+      path: "/actuator/prometheus"
+      scheme: "HTTPS"
+      tlsConfig:
+        insecureSkipVerify: true
+  selector:
+    matchLabels:
+      app: "Api"
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    app: "Api"
+  name: "Api"
+  namespace: "NTP"
+  ownerReferences:
+    - apiVersion: "v1"
+      kind: "PitApp"
+      controller: true
+      name: "Api"
+      uid: "d73jdlske213"
+spec:
+  ports:
+    - name: "https"
+      port: 443
+      protocol: "TCP"
+      targetPort: 8443
+  selector:
+    app: "Api"
+  type: "LoadBalancer"
