@@ -15,5 +15,7 @@ class PitAppTest extends ControllerTestBase {
         val resource = minimumValid();
 
         val result = convert(resource);
+
+        System.out.println("");
     }
 }
